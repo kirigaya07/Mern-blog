@@ -15,8 +15,6 @@ export default function Search() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(sidebarData);
-
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -52,7 +50,7 @@ export default function Search() {
     fetchPosts();
   }, [location.search]);
 
-  const handleChage = (e) => {
+  const handleChange = (e) => {
     const { id, value } = e.target;
     setSidebarData((prevState) => ({
       ...prevState,
@@ -104,12 +102,12 @@ export default function Search() {
               id="searchTerm"
               type="text"
               value={sidebarData.searchTerm}
-              onChange={handleChage}
+              onChange={handleChange}
             />
           </div>
           <div className="flex items-center gap-2">
             <label className="font-semibold">Sort:</label>
-            <Select onChange={handleChage} value={sidebarData.sort} id="sort">
+            <Select onChange={handleChange} value={sidebarData.sort} id="sort">
               <option value="desc">Latest</option>
               <option value="asc">Oldest</option>
             </Select>
@@ -117,7 +115,7 @@ export default function Search() {
           <div className="flex items-center gap-2">
             <label className="font-semibold">Category:</label>
             <Select
-              onChange={handleChage}
+              onChange={handleChange}
               value={sidebarData.category}
               id="category"
             >
