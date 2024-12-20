@@ -7,6 +7,8 @@ import CallToAction from "../components/CallToAction";
 import CommentSection from "../components/CommentSection";
 import PostCard from "../components/PostCard";
 import { motion } from "framer-motion";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Ensure ReactQuill CSS is imported
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -58,6 +60,10 @@ export default function PostPage() {
     visible: { opacity: 1, transition: { duration: 1 } },
   };
 
+  const modules = {
+    toolbar: false, // Disable the toolbar
+  };
+
   return (
     <motion.main
       initial="hidden"
@@ -75,7 +81,7 @@ export default function PostPage() {
         <>
           <motion.h1
             variants={containerVariants}
-            className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl"
+            className="text-3xl mt-10 p-3 text-center font-serif max-w-4xl mx-auto lg:text-4xl"
           >
             {post && post.title}
           </motion.h1>
@@ -95,18 +101,28 @@ export default function PostPage() {
           />
           <motion.div
             variants={containerVariants}
-            className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs"
+            className="flex justify-between p-3 mx-auto w-full max-w-4xl text-xs"
           >
             <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
             <span className="italic">
               {post && (post.content.length / 1000).toFixed(0)} mins read
             </span>
           </motion.div>
+
+          {/* Improved content section */}
           <motion.div
             variants={containerVariants}
-            className="p-3 max-w-2xl mx-auto w-full post-content"
-            dangerouslySetInnerHTML={{ __html: post && post.content }}
-          ></motion.div>
+            className="p-3 max-w-4xl mx-auto w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg mt-10" // Dark background in dark mode
+          >
+            <ReactQuill
+              value={post.content} // Content from backend
+              readOnly={true} // Only display the content, no editing
+              theme="snow" // Snow theme for ReactQuill
+              modules={modules} // Disable the toolbar
+              className="post-content text-lg leading-relaxed text-gray-900 dark:text-gray-100" // Adjusted text color for dark mode
+            />
+          </motion.div>
+
           <motion.div
             variants={containerVariants}
             className="max-w-4xl mx-auto w-full"
