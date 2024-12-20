@@ -21,6 +21,26 @@ export default function CreatePost() {
   const [publishError, setPublishError] = useState(null);
   const navigate = useNavigate();
 
+  // Define custom toolbar options
+  const toolbarOptions = [
+    [{ font: [] }], // Font family
+    [{ header: [1, 2, 3, 4, 5, 6, false] }], // Header levels
+    ["bold", "italic", "underline", "strike"], // Formatting
+    [{ color: [] }, { background: [] }], // Text and background color
+    [{ list: "ordered" }, { list: "bullet" }], // Lists
+    [{ indent: "-1" }, { indent: "+1" }], // Indentation
+    [{ align: [] }], // Text alignment
+    ["blockquote", "code-block"], // Blockquote and code
+    ["link", "image"], // Links and images
+    ["clean"], // Clear formatting
+  ];
+
+  const modules = {
+    toolbar: {
+      container: toolbarOptions,
+    },
+  };
+
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -142,6 +162,7 @@ export default function CreatePost() {
           placeholder="Write something..."
           className="h-72 mb-12"
           required
+          modules={modules} // Pass the enhanced toolbar modules
           onChange={(value) => {
             setFormData({ ...formData, content: value });
           }}
